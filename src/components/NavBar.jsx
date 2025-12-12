@@ -17,7 +17,10 @@ const Navbar = () => {
     <nav className="w-full sticky top-0 z-50 backdrop-blur-md shadow-md">
       <div className="w-full px-6 py-4 flex items-center justify-between relative">
         {/* Logo */}
-        <span className="text-xl py-4 font-semibold text-gray-900">
+        <span 
+          onClick={() => navigate("/")}
+          className="text-xl py-4 font-semibold text-gray-900 cursor-pointer hover:text-gray-700 transition"
+        >
           Skincare Advisor
         </span>
 

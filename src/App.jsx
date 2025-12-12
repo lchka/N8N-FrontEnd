@@ -1,7 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import Navbar from './components/Navbar'
-
+import CheckProduct from './pages/CheckProduct'
+import Navbar from './components/NavBar'
+import Footer from './components/Footer'
+import ShowAnalysis from './pages/ShowAnalysis'
 function App() {
   return (
     <>
@@ -9,7 +11,10 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/check" element={<CheckProduct />} />  
+        <Route path="/analysis" element={<ShowAnalysis/>}/>
       </Routes>
+      <Footer />
     </>
   )
 }

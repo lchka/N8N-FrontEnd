@@ -35,7 +35,7 @@ export default function ShowAnalysis() {
   } = state;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 p-6">
+    <div className="min-h-screen text-zinc-100 p-6">
       <div className="max-w-3xl mx-auto space-y-6">
 
         {/* Header / Verdict */}

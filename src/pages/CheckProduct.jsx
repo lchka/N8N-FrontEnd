@@ -4,6 +4,21 @@ import { analyseProduct } from "../service/analysis_service";
 
 const CheckProduct = () => {
   const navigate = useNavigate();
+  const saveAnalysisToLocalStorage = (productName, result) => {
+    const existing = JSON.parse(localStorage.getItem("analysisHistory")) || [];
+
+    const entry = {
+      id: crypto.randomUUID(),
+      title: productName,
+      result,
+      createdAt: new Date().toISOString(),
+    };
+
+    localStorage.setItem(
+      "analysisHistory",
+      JSON.stringify([entry, ...existing])
+    );
+  };
 
   const [step, setStep] = useState(1);
 
@@ -95,9 +110,7 @@ const CheckProduct = () => {
               What product do you want to analyse?
             </h2>
 
-            <p className="text-gray-500">
-              Please include the brand name.
-            </p>
+            <p className="text-gray-500">Please include the brand name.</p>
 
             <input
               type="text"
@@ -149,7 +162,9 @@ const CheckProduct = () => {
 
                     console.log("FINAL RESULT:", result);
 
-                    
+                    saveAnalysisToLocalStorage(productName.trim(), result);
+
+                    navigate("/analysis", { state: result });
                   } catch (err) {
                     console.error(err);
                     setError("Failed to analyse product. Please try again.");

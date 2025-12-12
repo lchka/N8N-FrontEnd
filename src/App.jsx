@@ -4,6 +4,7 @@ import CheckProduct from './pages/CheckProduct'
 import Navbar from './components/NavBar'
 import Footer from './components/Footer'
 import ShowAnalysis from './pages/ShowAnalysis'
+import AllSearches from './pages/AllSearches'
 function App() {
   return (
     <>
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/check" element={<CheckProduct />} />  
         <Route path="/analysis" element={<ShowAnalysis/>}/>
+        <Route path="/history" element={<AllSearches/> }/>
       </Routes>
       <Footer />
     </>

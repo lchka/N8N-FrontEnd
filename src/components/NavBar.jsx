@@ -1,13 +1,17 @@
-import { useState } from 'react'
-import { FiAlignJustify,FiMenu  } from "react-icons/fi";
-const Navbar = () => {
-  const [open, setOpen] = useState(false)
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiMenu } from "react-icons/fi";
 
-  const previousSearches = [
-    'CeraVe Hydrating Cleanser',
-    'La Roche-Posay Effaclar',
-    'The Ordinary Niacinamide',
-  ]
+const Navbar = () => {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  // Lazy init from localStorage
+  const [previousSearches] = useState(() => {
+    return JSON.parse(localStorage.getItem("analysisHistory")) || [];
+  });
+
+  const visibleSearches = previousSearches.slice(0, 3);
 
   return (
     <nav className="w-full sticky top-0 z-50 backdrop-blur-md shadow-md">
@@ -19,11 +23,11 @@ const Navbar = () => {
 
         {/* Hamburger */}
         <button
-          onClick={() => setOpen(!open)}
-          className="space-y-1 cursor-pointer"
+          onClick={() => setOpen((prev) => !prev)}
+          className="cursor-pointer"
           aria-label="Menu"
         >
-  <FiMenu  size="30"/>
+          <FiMenu size={30} />
         </button>
 
         {/* Dropdown */}
@@ -36,21 +40,44 @@ const Navbar = () => {
               Previously searched
             </div>
 
-            <ul className="max-h-60 overflow-auto">
-              {previousSearches.map((item, index) => (
-                <li
-                  key={index}
-                  className="px-4 py-3 text-l  text-gray-700 hover:bg-gray-50 cursor-pointer"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {previousSearches.length === 0 ? (
+              <p className="px-4 py-4 text-sm text-gray-400">
+                No previous searches
+              </p>
+            ) : (
+              <ul className="max-h-60 overflow-auto">
+                {visibleSearches.map((item) => (
+                  <li
+                    key={item.id}
+                    onClick={() => {
+                      navigate("/analysis", { state: item.result });
+                      setOpen(false);
+                    }}
+                    className="px-4 py-3 text-l text-gray-700 hover:bg-gray-50 cursor-pointer"
+                  >
+                    {item.title}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* ALWAYS visible */}
+            <div className="border-t">
+              <button
+                onClick={() => {
+                  navigate("/history");
+                  setOpen(false);
+                }}
+                className="w-full px-4 py-3 text-sm text-gray-600 hover:bg-gray-50 text-left"
+              >
+                View all searches
+              </button>
+            </div>
           </div>
         )}
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

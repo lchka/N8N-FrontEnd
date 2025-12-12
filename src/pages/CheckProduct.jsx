@@ -4,13 +4,15 @@ import { analyseProduct } from "../service/analysis_service";
 
 const CheckProduct = () => {
   const navigate = useNavigate();
-  const saveAnalysisToLocalStorage = (productName, result) => {
+  const saveAnalysisToLocalStorage = (productName, result, allergies, conditions) => {
     const existing = JSON.parse(localStorage.getItem("analysisHistory")) || [];
 
     const entry = {
       id: crypto.randomUUID(),
       title: productName,
       result,
+      user_allergies: allergies,
+      user_conditions: conditions,
       createdAt: new Date().toISOString(),
     };
 
@@ -162,9 +164,36 @@ const CheckProduct = () => {
 
                     console.log("FINAL RESULT:", result);
 
-                    saveAnalysisToLocalStorage(productName.trim(), result);
+                    const allergyArray = allergies
+                      .split(",")
+                      .map((a) => a.trim())
+                      .filter(Boolean);
+                    const conditionArray = conditions
+                      .split(",")
+                      .map((c) => c.trim())
+                      .filter(Boolean);
 
-                    navigate("/analysis", { state: result });
+                    saveAnalysisToLocalStorage(
+                      productName.trim(),
+                      result,
+                      allergyArray,
+                      conditionArray
+                    );
+
+                    navigate("/analysis", {
+                      state: {
+                        product_name: productName.trim(),
+                        user_allergies: allergies
+                          .split(",")
+                          .map((a) => a.trim())
+                          .filter(Boolean),
+                        user_conditions: conditions
+                          .split(",")
+                          .map((c) => c.trim())
+                          .filter(Boolean),
+                        ...result,
+                      },
+                    });
                   } catch (err) {
                     console.error(err);
                     setError("Failed to analyse product. Please try again.");

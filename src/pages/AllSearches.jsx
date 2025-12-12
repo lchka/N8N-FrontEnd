@@ -3,18 +3,14 @@ import { useNavigate } from "react-router-dom";
 const AllSearches = () => {
   const navigate = useNavigate();
 
-  const searches =
-    JSON.parse(localStorage.getItem("analysisHistory")) || [];
+  const searches = JSON.parse(localStorage.getItem("analysisHistory")) || [];
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 p-6">
       <div className="max-w-3xl mx-auto space-y-6">
-
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-semibold mb-2">
-            All Searches
-          </h1>
+          <h1 className="text-3xl font-semibold mb-2">All Searches</h1>
           <p className="text-zinc-400">
             Review all previously analysed products
           </p>
@@ -31,13 +27,18 @@ const AllSearches = () => {
               <button
                 key={item.id}
                 onClick={() =>
-                  navigate("/analysis", { state: item.result })
+                  navigate("/analysis", {
+                    state: {
+                      product_name: item.title,
+                      user_allergies: item.user_allergies || [],
+                      user_conditions: item.user_conditions || [],
+                      ...item.result,
+                    },
+                  })
                 }
                 className="w-full text-left px-6 py-4 hover:bg-zinc-800 transition flex flex-col"
               >
-                <span className="font-medium text-zinc-100">
-                  {item.title}
-                </span>
+                <span className="font-medium text-zinc-100">{item.title}</span>
 
                 {item.createdAt && (
                   <span className="text-sm text-zinc-400">
@@ -56,7 +57,6 @@ const AllSearches = () => {
         >
           Back to home
         </button>
-
       </div>
     </div>
   );

@@ -50,7 +50,14 @@ const Navbar = () => {
                   <li
                     key={item.id}
                     onClick={() => {
-                      navigate("/analysis", { state: item.result });
+                      navigate("/analysis", {
+                        state: {
+                          product_name: item.title,
+                          user_allergies: item.user_allergies || [],
+                          user_conditions: item.user_conditions || [],
+                          ...item.result,
+                        },
+                      });
                       setOpen(false);
                     }}
                     className="px-4 py-3 text-l text-gray-700 hover:bg-gray-50 cursor-pointer"

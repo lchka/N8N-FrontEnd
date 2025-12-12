@@ -22,6 +22,9 @@ export default function ShowAnalysis() {
   }
 
   const {
+    product_name,
+    user_allergies = [],
+    user_conditions = [],
     summary,
     suitability_score,
     is_suitable,
@@ -29,24 +32,74 @@ export default function ShowAnalysis() {
     explanation,
     allergy_notes,
     condition_notes,
-    key_ingredients,
-    ingredients,
-    citations,
+    key_ingredients = [],
+    ingredients = [],
+    citations = [],
   } = state;
 
   return (
     <div className="min-h-screen text-zinc-100 p-6">
       <div className="max-w-3xl mx-auto space-y-6">
 
+        {/* Product & User Context */}
+        <div className="rounded-2xl bg-zinc-900 p-6 shadow space-y-4">
+          <div>
+            <h1 className="text-2xl font-semibold">
+              {product_name}
+            </h1>
+            <p className="text-sm text-zinc-400">
+              Analysed for your skin profile
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-sm font-medium text-zinc-400 mb-2">
+                Your allergies
+              </h3>
+              {user_allergies.length === 0 ? (
+                <p className="text-zinc-500 text-sm">None specified</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {user_allergies.map((a) => (
+                    <span
+                      key={a}
+                      className="bg-zinc-800 px-3 py-1 rounded-full text-sm"
+                    >
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <h3 className="text-sm font-medium text-zinc-400 mb-2">
+                Your skin conditions
+              </h3>
+              {user_conditions.length === 0 ? (
+                <p className="text-zinc-500 text-sm">None specified</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {user_conditions.map((c) => (
+                    <span
+                      key={c}
+                      className="bg-zinc-800 px-3 py-1 rounded-full text-sm"
+                    >
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Header / Verdict */}
         <div className="rounded-2xl bg-zinc-900 p-6 shadow">
-          <h1 className="text-2xl font-semibold mb-2">
+          <h2 className="text-xl font-semibold mb-2">
             Product Safety Analysis
-          </h1>
-
-          <p className="text-zinc-400 text-sm mb-4">
-            AI-assisted evaluation based on ingredients, allergies, and skin conditions
-          </p>
+          </h2>
 
           <div className="flex items-center justify-between gap-4">
             <div>
@@ -120,7 +173,9 @@ export default function ShowAnalysis() {
 
         {/* Citations */}
         <div className="rounded-2xl bg-zinc-900 p-6 shadow">
-          <h2 className="text-lg font-semibold mb-3">Scientific References</h2>
+          <h2 className="text-lg font-semibold mb-3">
+            Scientific References
+          </h2>
 
           <ul className="list-decimal list-inside text-zinc-400 space-y-2 text-sm">
             {citations.map((citation, index) => (

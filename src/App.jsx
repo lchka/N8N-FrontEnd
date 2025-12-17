@@ -5,9 +5,11 @@ import Navbar from './components/NavBar'
 import Footer from './components/Footer'
 import ShowAnalysis from './pages/ShowAnalysis'
 import AllSearches from './pages/AllSearches'
+import { ThemeProvider } from './context/ThemeContext'
+
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <Navbar />
 
       <Routes>
@@ -17,7 +19,7 @@ function App() {
         <Route path="/history" element={<AllSearches/> }/>
       </Routes>
       <Footer />
-    </>
+    </ThemeProvider>
   )
 }
 

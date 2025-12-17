@@ -1,26 +1,26 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
+// Page to display detailed product analysis results
 export default function ShowAnalysis() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  // Safety guard (refresh / direct access)
+  // Redirect to check page if no analysis data available
   if (!state) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-zinc-100">
         <div className="text-center space-y-4">
           <p className="text-gray-600 dark:text-zinc-400">No analysis data available.</p>
-          <button
-            onClick={() => navigate("/check")}
-            className="px-6 py-3 rounded-full bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100 transition"
-          >
+          <Button onClick={() => navigate("/check")}>
             Analyse a product
-          </button>
+          </Button>
         </div>
       </div>
     );
   }
 
+  // Extract analysis data from route state
   const {
     product_name,
     user_allergies = [],
@@ -40,6 +40,13 @@ export default function ShowAnalysis() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-zinc-100 p-6">
       <div className="max-w-3xl mx-auto space-y-6">
+        
+        {/* New Analysis Button */}
+        <div className="flex justify-end">
+          <Button onClick={() => navigate("/check")} size="md">
+            New Analysis
+          </Button>
+        </div>
 
         {/* Product & User Context */}
         <div className="rounded-2xl bg-white dark:bg-zinc-900 p-6 shadow space-y-4">
